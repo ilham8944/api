@@ -36,7 +36,9 @@ const UserScreen = () => {
                     // console.log("CREATE USER", resp);
                     // showtToast(`User created with ID ${resp.data._id}`)
                     // setModalVisible(false)
-                .then(loadData())
+                setForm(initialForm)
+                setModalVisible(false)
+                loadData()
                     
                 
             }
@@ -44,14 +46,19 @@ const UserScreen = () => {
                 break;
 
             case 'UPDATE': {
-                editUser(form).then(resp => {
+                editUser(form)
                     // if (resp.code == 200) {
-                        showtToast(`User updated with ID ${resp.data.nim}`)
-                        setModalVisible(false)
-                        setForm(initialForm)
-                        loadData()
+                        // showtToast(`User updated with ID ${resp.data.nim}`)
+                        // setModalVisible(false)
+                    // .then((result) => console.log(result))
+                    // .catch((error) => console.log(error))
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log(error))
+                    setForm(initialForm)
+                    setModalVisible(false)
+                    loadData()
                     // }
-                })
+                
             }
                 break;
 
@@ -75,6 +82,8 @@ const UserScreen = () => {
 
     const handleDeleteUser = (nim) => {
         removeUser(nim)
+        .then((result) => console.log(result))
+        .catch((error) => console.log(error))
         .then(loadData())
         // .then(resp => {
         //     if(resp.code == 200){
@@ -110,7 +119,7 @@ const UserScreen = () => {
                 <View style={styles.centeredModal}>
                     <View style={styles.modalView}>
                         <View style={styles.title}>
-                            <Text style={styles.modalTitle}>New User</Text>
+                            <Text style={styles.modalTitle}>Data Mahasiswa</Text>
                             <Icon
                                 name='x'
                                 size={24}
@@ -143,21 +152,27 @@ const UserScreen = () => {
                             placeholder="status"
                             onChangeText={(text) => handleTextInput('status', text)}
                         />
-                        <Button 
-                            title="Save"
-                            onPress={() => {
-                                handleSave('CREATE')
-                                // else {
-                                //     handleSave('UPDATE')
-                                // }
-                            }}
-                        />
-                        {/* <Button style={styles.button}
-                            title="Update"
-                            onPress={() => {
-                                handleSave('UPDATE')
-                            }}
-                        /> */}
+                        <View style={styles.button}>
+                            <Button 
+                                color='green'
+                                title="Tambah"
+                                onPress={() => {
+                                    handleSave('CREATE')
+                                    // else {
+                                    //     handleSave('UPDATE')
+                                    // }
+                                }}
+                            />
+                        </View>
+                        <View style={styles.button}>
+                            <Button style={styles.button}
+                                title="Update"
+                                onPress={() => {
+                                    handleSave('UPDATE')
+                                }}
+                            />
+                        </View>
+                       
                     </View>
                 </View>
             </Modal>
@@ -197,7 +212,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {
-        backgroundColor:'red'
+        marginBottom:10
     }
+    
 
 })
