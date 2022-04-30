@@ -8,19 +8,22 @@ const SearchComponent = ({ handleSearchInput, handleSort, placeholder, sortTitle
 
     return (
         <View style={styles.container}>
-            <Feather name='search' size={24} color='#aaa' style={{ alignSelf: 'center', padding: 12 }} />
+            <Feather name='search' size={24} color='white' style={{ alignSelf: 'center', padding: 15 }} />
             <TextInput
+                placeholderTextColor={'white'}
                 placeholder={placeholder}
+                placeholderFontSize={14}
+                color='white'
                 style={styles.search}
-                onChangeText={(text) => handleSearchInput(text)}
+                //onChangeText={(text) => handleSearchInput(text)}
             />
             <TouchableOpacity
-                style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 12, backgroundColor: 'white', borderRadius: 4, }}
+                style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 12, backgroundColor: '#4C7368', borderRadius: 10}}
                 onPress={handleSort}
             >
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ color: 'orange', fontSize: 16 }}>{sortTitle}</Text>
-                    <Feather name='chevron-down' size={26} color='orange' style={{ alignSelf: 'center' }} />
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Text style={{ color: 'orange', fontSize: 14,}}>{sortTitle}</Text>
+                    <Feather name='chevron-down' size={24} color='white' style={{ alignSelf: 'center'}} />
                 </View>
 
             </TouchableOpacity>
@@ -36,13 +39,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 64,
-        width: width - 20,
+        width: width - 40,
         borderColor: '#aaa',
-        borderRadius: 4,
-        backgroundColor: '#fff',
-        margin: 10
+        borderRadius: 10,
+        backgroundColor: '#4C7368',
+        margin: 20
     },
     search: {
         flex: 3,
+        fontSize: 16
     }
 })

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList, StyleSheet, Modal, TextInput, Button, ToastAndroid } from "react-native";
+import { View, Text, FlatList, StyleSheet, Modal, TextInput, Button, ToastAndroid, Image } from "react-native";
 import SearchComponent from '../../components/SearchComponent';
 import CardUserComponent from '../../components/CardUserComponent';
 import VectorIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/Feather'
 import { createUser, editUser, listUser, removeUser } from '../users/UserService'
-
+// import image from '../images/logo.png'
 const initialForm = {
     
-    nim: "",
+    id: "",
+    kategori: "",
     nama: "",
-    prodi: "",
-    alamat: "",
-    status: "",
+    harga: "",
+    stok: "",
 }
 
 const UserScreen = () => {
@@ -33,31 +33,21 @@ const UserScreen = () => {
                 createUser(form)
                 .then((result) => console.log(result))
                 .catch((error) => console.log(error))
-                    // console.log("CREATE USER", resp);
-                    // showtToast(`User created with ID ${resp.data._id}`)
-                    // setModalVisible(false)
                 setForm(initialForm)
                 setModalVisible(false)
-                loadData()
-                    
-                
+                loadData()    
             }
 
                 break;
 
             case 'UPDATE': {
                 editUser(form)
-                    // if (resp.code == 200) {
-                        // showtToast(`User updated with ID ${resp.data.nim}`)
-                        // setModalVisible(false)
-                    // .then((result) => console.log(result))
-                    // .catch((error) => console.log(error))
-                    .then((result) => console.log(result))
-                    .catch((error) => console.log(error))
-                    setForm(initialForm)
-                    setModalVisible(false)
-                    loadData()
-                    // }
+                .then((result) => console.log(result))
+                .catch((error) => console.log(error))
+                setForm(initialForm)
+                setModalVisible(false)
+                loadData()
+                    
                 
             }
                 break;
@@ -67,12 +57,9 @@ const UserScreen = () => {
         }
     }
 
-    const showtToast = (message) => {
-        ToastAndroid.show(message, ToastAndroid.SHORT)
-    }
 
-    const handleTextInput = (nim, text) => {
-        setForm({ ...form, [nim]: text })
+    const handleTextInput = (id, text) => {
+        setForm({ ...form, [id]: text })
     }
 
     const handleSelectedUser = (user) => {
@@ -80,20 +67,11 @@ const UserScreen = () => {
         setModalVisible(true)
     }
 
-    const handleDeleteUser = (nim) => {
-        removeUser(nim)
+    const handleDeleteUser = (id) => {
+        removeUser(id)
         .then((result) => console.log(result))
         .catch((error) => console.log(error))
         .then(loadData())
-        // .then(resp => {
-        //     if(resp.code == 200){
-        //         showtToast(`User with ID ${nim} deleted`)
-        //         loadData()
-        //     }
-        //     else{
-        //         console.error(error);
-        //     }
-        // })
     }
 
     useEffect(() => {
@@ -102,13 +80,14 @@ const UserScreen = () => {
 
     return (
         <View style={styles.container}>
-            <SearchComponent placeholder={'Search User. . .'} sortTitle={'FILTER'} />
+            <SearchComponent placeholder={'Cari Menu'}/>
             <FlatList
                 data={users}
                 renderItem={({ item: user }) => <CardUserComponent data={user} handleClicked={handleSelectedUser} handleDeleteUser={handleDeleteUser}/>}
-                keyExtractor={({ nim }) => nim}
+                keyExtractor={({ id }) => id}
             />
-            <VectorIcon name='add-circle' size={66} style={{ position: 'absolute', bottom: 10, right: 10 }} color={'green'}
+
+            <VectorIcon name='add-circle' size={70} style={{ position: 'absolute', bottom: 15, right: 15}} color={'#4C7368'}
                 onPress={() => setModalVisible(!modalVisible)}
             />
             <Modal
@@ -119,7 +98,7 @@ const UserScreen = () => {
                 <View style={styles.centeredModal}>
                     <View style={styles.modalView}>
                         <View style={styles.title}>
-                            <Text style={styles.modalTitle}>Data Mahasiswa</Text>
+                            <Text style={styles.modalTitle}>Menu</Text>
                             <Icon
                                 name='x'
                                 size={24}
@@ -127,45 +106,48 @@ const UserScreen = () => {
                             />
                         </View>
 
-                        <TextInput
-                            value={form.nim}
-                            placeholder="nim"
-                            onChangeText={(text) => handleTextInput('nim', text)}
+                        <TextInput style={styles.input}
+                            value={form.id}
+                            placeholder="id"
+                            placeholderTextColor='#6E6868'
+                            onChangeText={(text) => handleTextInput('id', text)}
                         />
-                        <TextInput
+                        <TextInput style={styles.input}
+                            value={form.kategori}
+                            placeholder="Kategori"
+                            placeholderTextColor='#6E6868'
+                            onChangeText={(text) => handleTextInput('kategori', text)}
+                        />
+                        <TextInput style={styles.input}
                             value={form.nama}
-                            placeholder="nama"
+                            placeholder="Nama"
+                            placeholderTextColor='#6E6868'
                             onChangeText={(text) => handleTextInput('nama', text)}
                         />
-                        <TextInput
-                            value={form.prodi}
-                            placeholder="prodi"
-                            onChangeText={(text) => handleTextInput('prodi', text)}
+                        <TextInput style={styles.input}
+                            value={form.harga}
+                            placeholder="Harga"
+                            placeholderTextColor='#6E6868'
+                            onChangeText={(text) => handleTextInput('harga', text)}
                         />
-                        <TextInput
-                            value={form.alamat}
-                            placeholder="alamat"
-                            onChangeText={(text) => handleTextInput('alamat', text)}
-                        />
-                        <TextInput
-                            value={form.status}
-                            placeholder="status"
-                            onChangeText={(text) => handleTextInput('status', text)}
+                        <TextInput style={styles.input}
+                            value={form.stok}
+                            placeholder="Stok"
+                            placeholderTextColor='#6E6868'
+                            onChangeText={(text) => handleTextInput('stok', text)}
                         />
                         <View style={styles.button}>
                             <Button 
-                                color='green'
+                                color='#4E6980'
                                 title="Tambah"
                                 onPress={() => {
                                     handleSave('CREATE')
-                                    // else {
-                                    //     handleSave('UPDATE')
-                                    // }
                                 }}
                             />
                         </View>
                         <View style={styles.button}>
                             <Button style={styles.button}
+                                color='#4C7368'
                                 title="Update"
                                 onPress={() => {
                                     handleSave('UPDATE')
@@ -186,34 +168,48 @@ export {initialForm}
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FDE5A5'
     },
     centeredModal: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+        backgroundColor: '#FDE5A5'
     },
     modalView: {
-        backgroundColor: "#FFF",
-        borderRadius: 8,
-        padding: 16,
-        margin: 16,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: "#DB8667",
+        borderRadius: 10,
+        padding: 20,
+        margin: 20,
+        shadowColor: "black",
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
         elevation: 5
     },
     title: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+        
     },
     button: {
-        marginBottom:10
+        marginBottom:10,
+        backgroundColor:'red'
+    },
+    input: {
+        fontSize: 18,
+        color: "white",     
+        fontWeight: "bold",
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: 'white'
+    },
+    image:{
+        width: 180,
+        height: 70,
+        resizeMode: 'cover',
+
     }
-    
 
 })
